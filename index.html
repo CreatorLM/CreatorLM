@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- ░██████╗░█████╗░███████╗░██████╗ CreatorLM SEO Tags -->
+        <title>CreatorLM - AI Tool for Content Creators</title>
+        <meta name="description" content="Boost your YouTube & Instagram growth with CreatorLM. Get AI-generated tags, viral titles, and perfect posting times.">
+    
+        <!-- Keywords (for older search engines) -->
+        <meta name="keywords" content="CreatorLM, YouTube growth tool, Instagram scheduler, AI for creators, viral content tips">
+    
+        <!-- Social Media Tags -->
+        <meta property="og:title" content="CreatorLM - Your AI Content Assistant">
+        <meta property="og:description" content="Generate winning tags/titles and find best posting times with AI">
+        <meta property="og:image" content="logo.png"> <!-- Replace with your actual image URL later -->
+        <meta property="og:url" content="https://creatorlm.com"> <!-- Replace with your domain later -->
+    
+        <!-- Twitter Cards -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="CreatorLM">
+        <meta name="twitter:description" content="AI-powered tools for content creators">
+    
+        <!-- Favicon (prevents errors if missing) -->
+        <link rel="icon" href="data:,">
+    
+        <style>
+            /* General Styles */
+            body {
+                background-color: #121212;
+                color: #E0E0E0;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 20px;
+                margin: 0;
+            }
+    
+            h1 {
+                color: #1E90FF;
+                font-size: 2rem;
+            }
+    
+            p {
+                color: grey;
+                font-size: 1rem;
+            }
+    
+            /* Main Container - Desktop (60%) */
+            .container {
+                width: 60%;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #1E1E1E;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+                transition: padding-bottom 0.3s ease;
+            }
+    
+            .container-extended {
+                padding-bottom: 60px;
+            }
+    
+            /* Form Sections */
+            .form-section {
+                margin-bottom: 20px;
+            }
+    
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: #E0E0E0;
+            }
+    
+            input, button, select, textarea {
+                margin: 10px 0;
+                padding: 10px;
+                border-radius: 10px;
+                border: 1px solid #1E90FF;
+                background-color: #333;
+                color: white;
+                width: 100%;
+                font-size: 16px;
+            }
+    
+            textarea {
+                width: calc(100% - 20px);
+                resize: vertical;
+            }
+    
+            button {
+                background-color: #1E90FF;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+    
+            button:hover {
+                background-color: #0F5EB5;
+            }
+    
+            .disabled-button {
+                background-color: grey;
+                cursor: not-allowed;
+            }
+    
+            .file-input-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #333;
+                padding: 10px;
+                border-radius: 10px;
+            }
+    
+            .file-input-container span {
+                color: #E0E0E0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 60%;
+            }
+    
+            .file-input-container button {
+                width: auto;
+                padding: 10px 20px;
+            }
+    
+            .button-group {
+                display: flex;
+                gap: 10px;
+            }
+    
+            .button-group button {
+                flex: 1;
+            }
+    
+            /* Output Sections - Desktop (60%) */
+            .tags-section, .titles-section, .time-section {
+                display: none;
+                width: 60%;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #121212;
+                border-radius: 10px;
+            }
+    
+            .tags-section textarea {
+                height: 150px;
+            }
+    
+            .titles-container, .time-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+    
+            .title-box, .time-box {
+                background-color: #1E1E1E;
+                padding: 10px;
+                border-radius: 10px;
+                text-align: left;
+            }
+    
+            .title-box label, .time-box label {
+                font-weight: bold;
+                color: #1E90FF;
+            }
+    
+            .title-box textarea, .time-box textarea {
+                background-color: #444;
+                border: none;
+                color: white;
+                height: 40px;
+                overflow: hidden;
+                resize: none;
+            }
+    
+            .time-box textarea {
+                height: 80px;
+            }
+    
+            .copy-button {
+                background-color: #555;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+                transition: background-color 0.3s ease;
+            }
+    
+            .copy-button:hover {
+                background-color: #777;
+            }
+    
+            /* Loading Screen */
+            .loading-screen {
+                display: none;
+                justify-content: center;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 1000;
+            }
+    
+            .loading-dots {
+                color: #1E90FF;
+                font-size: 24px;
+                animation: blink 1.5s infinite;
+            }
+    
+            @keyframes blink {
+                0%, 100% { opacity: 0; }
+                50% { opacity: 1; }
+            }
+    
+            /* Mobile Adjustments (≤ 768px) */
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 1.5rem;
+                }
+    
+                p {
+                    font-size: 0.9rem;
+                }
+    
+                .container {
+                    width: 90%;
+                    padding: 15px;
+                }
+    
+                input, button, select, textarea {
+                    font-size: 14px;
+                    padding: 8px;
+                }
+    
+                .file-input-container button {
+                    padding: 8px 15px;
+                }
+    
+                .button-group {
+                    flex-direction: column;
+                }
+    
+                .tags-section, .titles-section, .time-section {
+                    width: 90%;
+                    padding: 15px;
+                }
+    
+                .title-box textarea, .time-box textarea {
+                    height: 60px;
+                }
+    
+                .time-box textarea {
+                    height: 70px;
+                }
+            }
+    
+            /* Error Message */
+            .error-message {
+                color: #ff6b6b;
+                margin: 10px 0;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+<body>
+    <h1>Hello I'm <span style="color:#1E90FF;">CreatorLM</span></h1>
+    <p>Optimize Your Video for Maximum Reach</p>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- File Upload Section -->
+        <div class="form-section">
+            <label>Upload Your Video (MP4 only)</label>
+            <div class="file-input-container">
+                <span>No file chosen</span>
+                <input type="file" id="videoUpload" accept="video/mp4" style="display:none;">
+                <button onclick="document.getElementById('videoUpload').click();">Choose File</button>
+            </div>
+        </div>
+
+        <!-- Video Description Section -->
+        <div class="form-section">
+            <label>Describe Your Video</label>
+            <textarea id="videoDescription" placeholder="Describe your video to our AI..."></textarea>
+        </div>
+
+        <!-- Target Country Section -->
+        <div class="form-section">
+            <label>Target Country</label>
+            <select id="targetCountry">
+                <option value="">Select Country</option>
+                <option>All (Global)</option>
+                <option>USA</option>
+                <option>India</option>
+                <option>Brazil</option>
+                <option>UK</option>
+                <option>Canada</option>
+                <option>Germany</option>
+                <option>France</option>
+                <option>Japan</option>
+                <option>Australia</option>
+            </select>
+        </div>
+
+        <!-- Your Country Section -->
+        <div class="form-section">
+            <label>Your Country</label>
+            <select id="yourCountry">
+                <option value="">Select Your Country</option>
+                <option>USA</option>
+                <option>India</option>
+                <option>Brazil</option>
+                <option>UK</option>
+                <option>Canada</option>
+                <option>Germany</option>
+                <option>France</option>
+                <option>Japan</option>
+                <option>Australia</option>
+            </select>
+        </div>
+
+        <!-- Platform Section -->
+        <div class="form-section">
+            <label>Platform</label>
+            <select id="platform">
+                <option value="">Select Platform</option>
+                <option>YouTube</option>
+                <option>Instagram</option>
+            </select>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button id="generateBtn" class="disabled-button" disabled>Generate</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <span class="loading-dots">...</span>
+    </div>
+
+    <!-- Tags Section -->
+    <div class="tags-section" id="tagsSection">
+        <h3>Tags</h3>
+        <textarea id="tagsBox" readonly></textarea>
+        <button class="copy-button" onclick="copyToClipboard('tagsBox')">Copy All Tags</button>
+    </div>
+
+    <!-- Titles Section -->
+    <div class="titles-section" id="titlesSection">
+        <h3>Titles</h3>
+        <div class="titles-container">
+            <div class="title-box">
+                <label>Title #1</label>
+                <textarea id="title1" readonly></textarea>
+                <button class="copy-button" onclick="copyToClipboard('title1')">Copy</button>
+            </div>
+            <div class="title-box">
+                <label>Title #2</label>
+                <textarea id="title2" readonly></textarea>
+                <button class="copy-button" onclick="copyToClipboard('title2')">Copy</button>
+            </div>
+            <div class="title-box">
+                <label>Title #3</label>
+                <textarea id="title3" readonly></textarea>
+                <button class="copy-button" onclick="copyToClipboard('title3')">Copy</button>
+            </div>
+            <div class="title-box">
+                <label>Title #4</label>
+                <textarea id="title4" readonly></textarea>
+                <button class="copy-button" onclick="copyToClipboard('title4')">Copy</button>
+            </div>
+            <div class="title-box">
+                <label>Title #5</label>
+                <textarea id="title5" readonly></textarea>
+                <button class="copy-button" onclick="copyToClipboard('title5')">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Section -->
+    <div class="time-section" id="timeSection">
+        <h3>Best Upload Time</h3>
+        <div class="time-container">
+            <div class="time-box">
+                <label>Schedule Upload</label>
+                <textarea id="timeBox" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to show error message
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Function to check if the form is complete
+        function checkFormCompletion() {
+            let videoUploaded = document.getElementById("videoUpload").files.length > 0;
+            let descriptionFilled = document.getElementById("videoDescription").value.trim() !== "";
+            let targetCountrySelected = document.getElementById("targetCountry").value !== "";
+            let yourCountrySelected = document.getElementById("yourCountry").value !== "";
+            let platformSelected = document.getElementById("platform").value !== "";
+
+            let generateBtn = document.getElementById("generateBtn");
+            if (videoUploaded && descriptionFilled && targetCountrySelected && yourCountrySelected && platformSelected) {
+                generateBtn.disabled = false;
+                generateBtn.classList.remove("disabled-button");
+            } else {
+                generateBtn.disabled = true;
+                generateBtn.classList.add("disabled-button");
+            }
+        }
+
+        // Function to reset the form
+        function resetForm() {
+            document.getElementById("videoUpload").value = "";
+            document.querySelector(".file-input-container span").innerText = "No file chosen";
+            document.getElementById("videoDescription").value = "";
+            document.getElementById("targetCountry").value = "";
+            document.getElementById("yourCountry").value = "";
+            document.getElementById("platform").value = "";
+            checkFormCompletion();
+            hideSections();
+
+            // Remove the extended container class
+            document.querySelector(".container").classList.remove("container-extended");
+        }
+
+        // Function to hide output sections
+        function hideSections() {
+            document.getElementById("tagsSection").style.display = "none";
+            document.getElementById("titlesSection").style.display = "none";
+            document.getElementById("timeSection").style.display = "none";
+            document.getElementById("tagsBox").value = "";
+            document.getElementById("title1").value = "";
+            document.getElementById("title2").value = "";
+            document.getElementById("title3").value = "";
+            document.getElementById("title4").value = "";
+            document.getElementById("title5").value = "";
+            document.getElementById("timeBox").value = "";
+        }
+
+        // Function to show the loading screen
+        function showLoadingScreen() {
+            document.getElementById("loadingScreen").style.display = "flex";
+        }
+
+        // Function to hide the loading screen
+        function hideLoadingScreen() {
+            document.getElementById("loadingScreen").style.display = "none";
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(elementId) {
+            let text = document.getElementById(elementId).value;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Event listener for file upload
+        document.getElementById("videoUpload").addEventListener("change", function() {
+            let file = this.files[0];
+            if (file) {
+                if (file.type !== "video/mp4") {
+                    showError("Only MP4 files are allowed.");
+                    this.value = "";
+                    document.querySelector(".file-input-container span").innerText = "No file chosen";
+                    return;
+                }
+
+                if (file.size > 1000 * 1024 * 1024) { // 1GB limit
+                    showError("File size must be less than 1GB.");
+                    this.value = "";
+                    document.querySelector(".file-input-container span").innerText = "No file chosen";
+                    return;
+                }
+
+                document.querySelector(".file-input-container span").innerText = file.name;
+            }
+            checkFormCompletion();
+        });
+
+        // Event listeners for form inputs
+        document.getElementById("videoDescription").addEventListener("input", checkFormCompletion);
+        document.getElementById("targetCountry").addEventListener("change", checkFormCompletion);
+        document.getElementById("yourCountry").addEventListener("change", checkFormCompletion);
+        document.getElementById("platform").addEventListener("change", checkFormCompletion);
+
+        // Reset button event listener
+        document.getElementById("resetBtn").addEventListener("click", resetForm);
+
+        // Event listener for the Generate button
+        document.getElementById("generateBtn").addEventListener("click", async function() {
+            showLoadingScreen();
+            hideSections();
+
+            const formData = new FormData();
+            formData.append("description", document.getElementById("videoDescription").value);
+            formData.append("target_country", document.getElementById("targetCountry").value);
+            formData.append("user_country", document.getElementById("yourCountry").value);
+            formData.append("platform", document.getElementById("platform").value);
+            formData.append("file", document.getElementById("videoUpload").files[0]);
+
+            try {
+                // Replace with your actual backend URL
+                const backendUrl = "http://127.0.0.1:8000/process_video/";
+                const response = await fetch(backendUrl, {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || "Failed to process video");
+                }
+
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    // Format tags with # and remove spaces
+                    const formattedTags = data.tags.map(tag => `#${tag.replace(/\s+/g, '')}`).join("\n");
+                    document.getElementById("tagsBox").value = formattedTags;
+
+                    // Ensure we have exactly 5 titles
+                    const titles = data.titles.slice(0, 5);
+                    while (titles.length < 5) {
+                        titles.push("No title generated");
+                    }
+
+                    document.getElementById("title1").value = titles[0];
+                    document.getElementById("title2").value = titles[1];
+                    document.getElementById("title3").value = titles[2];
+                    document.getElementById("title4").value = titles[3];
+                    document.getElementById("title5").value = titles[4];
+
+                    // Populate Upload Times based on selected platform
+                    const platform = document.getElementById("platform").value.toLowerCase();
+                    const uploadTimes = platform === "youtube" ? 
+                        data.youtube_times || ["No time data available"] : 
+                        data.instagram_times || ["No time data available"];
+                    
+                    document.getElementById("timeBox").value = uploadTimes.join("\n");
+
+                    // Show Sections
+                    document.getElementById("tagsSection").style.display = "block";
+                    document.getElementById("titlesSection").style.display = "block";
+                    document.getElementById("timeSection").style.display = "block";
+
+                    // Extend the main container
+                    document.querySelector(".container").classList.add("container-extended");
+                } else {
+                    throw new Error(data.message || "Unknown error occurred");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                showError(error.message);
+            } finally {
+                hideLoadingScreen();
+            }
+        });
+
+        // Initial form check
+        checkFormCompletion();
+    </script>
+</body>
+</html>
