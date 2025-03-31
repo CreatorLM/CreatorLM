@@ -1,5 +1,8 @@
 fastapi>=0.111.0
 uvicorn>=0.29.0
 gunicorn>=21.2.0
-litellm>=1.35.0  # Allows newer compatible versions
 python-dotenv>=1.0.1
+vosk>=0.3.45
+litellm>=1.34.2  # For AI API calls
+pytz>=2024.1
+requests>=2.31.0
