@@ -30,9 +30,10 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_origins=["*"],
+    allow_methods=["POST", "GET"],  # Add GET if needed
+    allow_headers=["*"],
+    expose_headers=["*"]  # ← Add this line
 )
 
 # Load Vosk model
@@ -226,7 +227,7 @@ def process_with_google_ai_studio(description: str, transcribed_text: str):
         return {"titles": [], "tags": []}
 
 # ====== API Endpoints ======
-@app.post("/process_video/")
+@app.post("/process_video")
 async def process_video(
     description: str = Form(...),
     target_country: str = Form(...),
