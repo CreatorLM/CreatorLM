@@ -1,3 +1,4 @@
+print("=== SCRIPT STARTED ===")
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
@@ -9,10 +10,10 @@ from typing import List
 from dotenv import load_dotenv
 from vosk import Model, KaldiRecognizer
 from pydub import AudioSegment
-import tempfile
 from datetime import datetime
 import pytz
 import statistics
+import tempfile
 
 # Import timezone data
 from timezone_data import COUNTRY_TIMEZONES, YOUTUBE_UTC_TIMINGS, INSTAGRAM_UTC_TIMINGS
