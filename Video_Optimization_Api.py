@@ -230,9 +230,9 @@ def process_with_google_ai_studio(description: str, transcribed_text: str):
 @app.post("/process_video")
 async def process_video(
     description: str = Form(...),
-    target_country: str = Form(...),
-    user_country: str = Form(...),
-    file: UploadFile = File(...),
+    target_country: str = Form(...),  # Must match frontend's "target_country"
+    user_country: str = Form(...),    # Must match frontend's "user_country"
+    file: UploadFile = File(...)      # Must be last parameter
 ):
     """Processes video, extracts keywords, fetches metadata, and suggests the best upload time."""
     try:
