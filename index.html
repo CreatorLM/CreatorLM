@@ -526,7 +526,7 @@
 
             try {
                 // Replace with your actual backend URL
-                const backendUrl = "http://127.0.0.1:8000/process_video/";
+                const backendUrl = `${window.location.origin}/process_video`;
                 const response = await fetch(backendUrl, {
                     method: "POST",
                     body: formData,
