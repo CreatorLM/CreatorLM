@@ -1,6 +1,7 @@
 print("=== SCRIPT STARTED ===")
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 import shutil
 import os
 import wave
@@ -37,6 +38,12 @@ app.add_middleware(
 # Load Vosk model
 VOSK_MODEL_PATH = "vosk-model-small-en-us-0.15"  # Update this path to your Vosk model directory
 vosk_model = Model(VOSK_MODEL_PATH)
+
+# Add this new endpoint to serve your HTML UI
+@app.get("/", response_class=HTMLResponse)
+async def serve_html_ui():
+    with open("index.html", "r") as file:
+        return HTMLResponse(content=file.read())
 
 # ====== Timezone Conversion Functions ======
 def convert_utc_to_local(utc_time_str, user_tz):
