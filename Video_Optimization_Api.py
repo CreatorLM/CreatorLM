@@ -62,7 +62,6 @@ async def serve_html_ui():
     with open("index.html", "r") as file:
         return HTMLResponse(content=file.read())
 
-app.mount("/static", StaticFiles(directory="static"), name="static")  # ← Fixed
 
 
 # ====== Timezone Conversion Functions ======
