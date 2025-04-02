@@ -1,4 +1,5 @@
 print("=== SCRIPT STARTED ===")
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -26,7 +27,7 @@ YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 # Create the FastAPI app
 app = FastAPI()
-
+app.mount("/", StaticFiles(directory="."), name="static")
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
