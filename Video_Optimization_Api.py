@@ -1,5 +1,6 @@
 print("=== SCRIPT STARTED ===")
 from fastapi.staticfiles import StaticFiles
+from fastapi import Response  # ← Add this with other imports
 from fastapi.responses import FileResponse
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -33,9 +34,16 @@ app = FastAPI()
 async def serve_homepage():
     return FileResponse("index.html")
 
-@app.get("/sitemap.xml")
+@app.get("/sitemap.xml", response_class=Response)
 async def serve_sitemap():
-    return FileResponse("sitemap.xml")
+    headers = {
+        "Content-Type": "application/xml",  # Explicit XML type
+        "Cache-Control": "public, max-age=3600"  # 1-hour cache
+    }
+    return Response(
+        content=open("sitemap.xml").read(),  # Direct file read
+        headers=headers
+    )
 
 @app.get("/creatorlm-logo.png")
 async def serve_logo():
