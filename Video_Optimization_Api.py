@@ -1,5 +1,6 @@
 print("=== SCRIPT STARTED ===")
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -27,7 +28,22 @@ YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 # Create the FastAPI app
 app = FastAPI()
+
+@app.get("/")
+async def serve_homepage():
+    return FileResponse("index.html")
+
+@app.get("/sitemap.xml")
+async def serve_sitemap():
+    return FileResponse("sitemap.xml")
+
+@app.get("/creatorlm-logo.png")
+async def serve_logo():
+    return FileResponse("creatorlm-logo.png")
+    
 app.mount("/", StaticFiles(directory="."), name="static")
+
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
@@ -46,6 +62,10 @@ vosk_model = Model(VOSK_MODEL_PATH)
 async def serve_html_ui():
     with open("index.html", "r") as file:
         return HTMLResponse(content=file.read())
+
+
+app.mount("/", StaticFiles(directory="."), name="static")
+
 
 # ====== Timezone Conversion Functions ======
 def convert_utc_to_local(utc_time_str, user_tz):
