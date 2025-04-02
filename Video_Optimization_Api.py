@@ -41,7 +41,6 @@ async def serve_sitemap():
 async def serve_logo():
     return FileResponse("creatorlm-logo.png")
     
-app.mount("/", StaticFiles(directory="."), name="static")
 
 
 # Enable CORS
