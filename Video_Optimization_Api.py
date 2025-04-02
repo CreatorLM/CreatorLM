@@ -36,14 +36,23 @@ async def serve_homepage():
 
 @app.get("/sitemap.xml", response_class=Response)
 async def serve_sitemap():
-    headers = {
-        "Content-Type": "application/xml",  # Explicit XML type
-        "Cache-Control": "public, max-age=3600"  # 1-hour cache
-    }
-    return Response(
-        content=open("sitemap.xml").read(),  # Direct file read
-        headers=headers
-    )
+    try:
+        with open("sitemap.xml", "r") as file:
+            return Response(
+                content=file.read(),
+                media_type="application/xml",
+                headers={
+                    "Cache-Control": "public, max-age=3600",  # 1 hour cache
+                    "X-Sitemap-Status": "active"  # Helps Google identify
+                }
+            )
+    except FileNotFoundError:
+        return Response(
+            content="""<?xml version="1.0" encoding="UTF-8"?>
+<error>Sitemap file not found</error>""",
+            status_code=404,
+            media_type="application/xml"
+        )
 
 @app.get("/creatorlm-logo.png")
 async def serve_logo():
